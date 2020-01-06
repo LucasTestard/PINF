@@ -47,24 +47,13 @@
         margin-left: 10%;
         margin-right:10%;
     }
-    #contenuDescD{
-        position: absolute;
-        margin-left: 50%;
-    }
     textarea{
         resize: none;
         width: 100%;
         height: 100%;
     }
-    #Traitement{
-        margin-top: 5%;
-        border: 1px solid black;
-        width: 50%;
-        text-align: center;
-        margin-left: 25%;
-    }
     #envoyer{
-        margin-left: 70%;
+        margin-left:43%;
         margin-top: 2%;
         padding: 2% 7% 2% 7%;
         font-size: 200%;
@@ -90,36 +79,25 @@
             <span class="PremColonne"> Type Véhicule</span>
             <input type="text" class="TextPremCol" >
         </div>
+    </div>    
 
 
-        <div id="contenuDescG">
-                <h2>Anomalies constatées sur le véhicule :</h2>
-                <textarea rows="15"></textarea>
-
-                <h2>Réparation du véhicule:</h2>
-                <input type="radio" name="Ponct">Oui<br><br>
-                <input type="radio" name="Ponct">Non<br><br>                
-                <h2>Lieux de réparation:</h2>
-                <input type="text">
-                <h2>Travaux effectuées :</h2>
-                <textarea rows="15"></textarea>
-                <h2>Traitement effectué par le chargé d'entretien du parc :</h2>
-                <input type="text">
-                <h2>Fait le :</h2>
-                <input type="date">
-
-            </div>
-
-
-            <div id="Traitement">
-                <h2>Traitement administratif</h2>
-                <spann>Traité par:</spann> <input type=text> <br><br>
-                <span>Le :</span> <input type=text> <br><br>
-                <span>Traitement effectué :</span> <br><textarea rows="8" style="width:60%;"></textarea>
-            </div>
-    <input type=submit value=Envoyer id=envoyer>
+    <div id="contenuDescG">
+        <h2>Anomalies constatées sur le véhicule :</h2>
+        <textarea rows="15"></textarea>
+        <h2>Réparation du véhicule:</h2>
+        <input type="radio" name="Ponct">Oui<br><br>
+        <input type="radio" name="Ponct">Non<br><br>                
+        <h2>Lieux de réparation:</h2>
+        <input type="text">
+        <h2>Travaux effectuées :</h2>
+        <textarea rows="15"></textarea>
+        <h2>Traitement effectué par le chargé d'entretien du parc :</h2>
+        <input type="text">
+        <h2>Fait le :</h2>
+        <input type="date">
     </div>
-
+    <input type=submit value=Envoyer id=envoyer>
 
 
 </html>
