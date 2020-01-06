@@ -65,7 +65,7 @@
           <span class="Motif" > Prénom </span>
           <input type="text" class="Text"> <br><br>
           <span class="Motif" > Date de naissance </span>
-          <input type="text" class="Text"> <br><br>
+          <input type="date" class="Text"> <br><br>
           <span class="Motif" > Identifiant </span>
           <input type="text" class="Text"> <br><br>
           <span class="Motif" > Mot de passe </span>
