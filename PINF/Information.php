@@ -80,9 +80,9 @@
     <div id="enveloppe">
         <div id="information">
             <span class="PremColonne"> Date</span>
-            <input type="text" class="TextPremCol">
+            <input type="date" class="TextPremCol">
             <span class="SecColonne"> Heure</span>
-            <input type="text"  class="TextSecCol"/>  <br><br>
+            <input type="time"  class="TextSecCol"/>  <br><br>
             <span class="PremColonne"> Nom Prénom (conducteur)</span>
             <input type="text" class="TextPremCol" >
             <span class="SecColonne"> Immatriculation</span>
@@ -112,8 +112,8 @@
 
                 <h2>Accueil</h2>
                 <input type="radio"> Le client a des difficultés pour joindre la réservation <br><br>
-                Date du jour  <input type="text"><br><br>
-                Heure <input type="text"><br><br><br><br>
+                Date du jour  <input type="date"><br><br>
+                Heure <input type="time"><br><br><br><br>
 
                 <h2>Véhicule</h2>
                 <input type="radio" name="Vehic"> Véhicule non adapté aux besoins du client<br><br>
@@ -124,7 +124,7 @@
             <div id="Traitement">
                 <h2>Traitement administratif</h2>
                 <spann>Traité par:</spann> <input type=text> <br><br>
-                <span>Le :</span> <input type=text> <br><br>
+                <span>Le :</span> <input type=date> <br><br>
                 <span>Traitement effectué :</span> <br><textarea rows="8" style="width:60%;"></textarea>
             </div>
         </div>
