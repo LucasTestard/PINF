@@ -60,14 +60,16 @@
     }
 </style>
 <!-- **** B O D Y **** -->
-<body >
+<body>
     <div id="entete">
         <h1>TRAVELIS</h1>
-        <h1>FICHE DE REPARATION</h1>
+        <h1>VERIFICATION</h1>
     </div>
 
     <div id="enveloppe">
-        <div id="information">
+        <form>
+        <fieldset id="information">
+        <legend>Information</legend>
             <span class="PremColonne"> Date</span>
             <input type="date" class="TextPremCol">
             <span class="SecColonne"> Nom Prénom (conducteur)</span>
@@ -78,26 +80,26 @@
             <input type="text" class="TextSecCol"> <br><br>
             <span class="PremColonne"> Type Véhicule</span>
             <input type="text" class="TextPremCol" >
+        </fieldset>
+        <form>
+
+        <div id="contenuDescG">
+            <h2>Anomalies constatées sur le véhicule :</h2>
+            <textarea rows="15"></textarea>
+            <h2>Réparation du véhicule:</h2>
+            <input type="radio" name="Ponct">Oui<br><br>
+            <input type="radio" name="Ponct">Non<br><br>                
+            <h2>Lieux de réparation:</h2>
+            <input type="text">
+            <h2>Travaux effectuées :</h2>
+            <textarea rows="15"></textarea>
+            <h2>Traitement effectué par le chargé d'entretien du parc :</h2>
+            <input type="text">
+            <h2>Fait le :</h2>
+            <input type="date">
         </div>
-    </div>    
+        <input type=submit value=Envoyer id=envoyer>
+    </div>     
 
-
-    <div id="contenuDescG">
-        <h2>Anomalies constatées sur le véhicule :</h2>
-        <textarea rows="15"></textarea>
-        <h2>Réparation du véhicule:</h2>
-        <input type="radio" name="Ponct">Oui<br><br>
-        <input type="radio" name="Ponct">Non<br><br>                
-        <h2>Lieux de réparation:</h2>
-        <input type="text">
-        <h2>Travaux effectuées :</h2>
-        <textarea rows="15"></textarea>
-        <h2>Traitement effectué par le chargé d'entretien du parc :</h2>
-        <input type="text">
-        <h2>Fait le :</h2>
-        <input type="date">
-    </div>
-    <input type=submit value=Envoyer id=envoyer>
-
-
+</body>
 </html>
