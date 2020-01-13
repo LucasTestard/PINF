@@ -54,7 +54,6 @@
         resize: none;
         width: 100%;
         height: 100%;
-
     }
     #Traitement{
         margin-top: 5%;
@@ -64,6 +63,7 @@
         margin-left: 25%;
     }
     #envoyer{
+        
         margin-left: 70%;
         margin-top: 2%;
         padding: 2% 7% 2% 7%;
@@ -78,7 +78,9 @@
     </div>
 
     <div id="enveloppe">
-        <div id="information">
+        <form>
+        <fieldset id="information">
+        <legend>Information</legend>
             <span class="PremColonne"> Date</span>
             <input type="date" class="TextPremCol">
             <span class="SecColonne"> Heure</span>
@@ -91,7 +93,8 @@
             <input type="text" class="TextPremCol" >
             <span class="SecColonne"> Nom de l'Etablissement</span>
             <input type="text" class="TextSecCol"> <br>
-        </div>
+        </fieldset>
+        </form>
 
         <div id="Description">
             <h1>Description</h1>
@@ -131,6 +134,7 @@
     <input type=submit value=Envoyer id=envoyer>
     </div>
 
-
+</body>
 
 </html>
+
