@@ -1,0 +1,22 @@
+.red{
+
+    height: 600px;
+    background-color: red;
+}
+
+.btn-custom{
+
+    background-color: blueviolet;
+}
+
+body{
+    background-color:#DFD8D7;
+}
+
+#connexion{
+    margin-top: 4%;
+    padding: 5%;
+    
+
+
+}
