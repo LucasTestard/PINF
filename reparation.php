@@ -1,105 +1,138 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
 
-<!-- **** H E A D **** -->
-<head>
-	<title>Fiche De Réparation</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<!-- **** F I N **** H E A D **** -->
+// Si la page est appelée directement par son adresse, on redirige en passant pas la page index
+if (basename($_SERVER["PHP_SELF"]) != "index.php")
+{
+	header("Location:../index.php");
+	die("");
+}
+
+?>
+
 <style>
-    #entete{
-        border: black 1px solid;
-        text-align: center;
-        padding: 2px;
-    }
-    #enveloppe{
-        border: black 1px solid;
-        padding: 50px 5px 5px 5px;
-        margin: 10px;
-        padding-bottom: 20px;
-    }
-    #information{
-        border: 1px black solid;
-        width: 80%;
-        margin: 5px 10% 5px 10%;
-        padding: 2%;
-    }
-    .PremColonne{
-        position: absolute;
-        margin-right:500px;
-        margin-bottom: 20px;
-    }
-    .SecColonne{
-        position:absolute;
-        margin-left: 40%;
-    }
-    .TextPremCol{
-        position:absolute;
-        margin-left: 13%;
-    }
-    .TextSecCol{
-        position: absolute;
-        margin-left: 52%;
-    }
-    #contenuDescG{
-        margin-left: 10%;
-        margin-right:10%;
-    }
-    textarea{
-        resize: none;
-        width: 100%;
-        height: 100%;
-    }
-    #envoyer{
-        margin-left:43%;
-        margin-top: 2%;
-        padding: 2% 7% 2% 7%;
-        font-size: 200%;
-    }
+/*fieldset{
+    border: black 1px solid;
+    padding: 50px 5px 5px 5px;
+    margin: 10px;
+    padding-bottom: 20px;
+}*/
+
+form{
+    margin-top: 30px;;
+
+}
+
+.space{
+    padding-top: 10px;
+    padding-left:0px;
+
+}
+
+#btnEnvoyer{
+    margin-top: 20px;
+}
+
 </style>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+<script>
+
+
+</script>
+
 <!-- **** B O D Y **** -->
 <body>
-    <div id="entete">
-        <h1>TRAVELIS</h1>
-        <h1>VERIFICATION</h1>
+
+<form class="container-fluid">
+
+<!--<fieldset class="form-row">
+<legend>Information</legend>-->
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="inputDate">Date</label>
+      <input type="date" class="form-control" id="inputDate" name="inputDate" placeholder="Date" required>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputNom">Nom</label>
+      <input type="text" class="form-control" id="inputNom" name="inputNom" placeholder="Nom" required>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputPrenom">Prénom</label>
+      <input type="text" class="form-control" id="inputPrenom" name="inputPrenom" placeholder="Prénom" required>
+    </div>
+</div>
+
+
+
+
+<div class="form-row">
+    <div class="form-group col-md-3">
+      <label for="inputImmat">Immatriculation</label>
+      <input type="text" class="form-control" id="inputImmat" name="inputImmat" placeholder="Immatriculation" required>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputTypeVehicule">Type Véhicule</label>
+      <input type="text" class="form-control" id="inputTypeVehicule" name="inputTypeVehicule" placeholder="Type Véhicule" required>
+    </div>
+    <div class="form-group col-md-3">
+      <label for="inputKm">km</label>
+      <input type="number" step="any" class="form-control" id="inputKm" name="inputKm" placeholder="km" required>
+    </div>
+</div>
+
+<!--</fieldset>-->
+
+
+<div class="form-group space">
+    <label for="inputAno">Anomalies constatées sur le véhicule :</label>
+    <textarea class="form-control" id="inputAno" name="inputAno" rows="3" required></textarea>
+</div> 
+
+
+
+<div class="form-group space">
+    <label for="inputReparation">Réparation du véhicule ?</label>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="radio" id="radioOui" value="Oui" required>
+        <label class="form-check-label" for="radioOui">Oui</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="radio" id="radioNon" value="Non" required>
+        <label class="form-check-label" for="radioNon">Non</label>
     </div>
 
-    <div id="enveloppe">
-        <form>
-        <fieldset id="information">
-        <legend>Information</legend>
-            <span class="PremColonne"> Date</span>
-            <input type="date" class="TextPremCol">
-            <span class="SecColonne"> Nom Prénom (conducteur)</span>
-            <input type="text"  class="TextSecCol"/>  <br><br>
-            <span class="PremColonne"> Immatriculation</span>
-            <input type="text" class="TextPremCol" >
-            <span class="SecColonne"> km</span>
-            <input type="text" class="TextSecCol"> <br><br>
-            <span class="PremColonne"> Type Véhicule</span>
-            <input type="text" class="TextPremCol" >
-        </fieldset>
-        <form>
-
-        <div id="contenuDescG">
-            <h2>Anomalies constatées sur le véhicule :</h2>
-            <textarea rows="15"></textarea>
-            <h2>Réparation du véhicule:</h2>
-            <input type="radio" name="Ponct">Oui<br><br>
-            <input type="radio" name="Ponct">Non<br><br>                
-            <h2>Lieux de réparation:</h2>
-            <input type="text">
-            <h2>Travaux effectuées :</h2>
-            <textarea rows="15"></textarea>
-            <h2>Traitement effectué par le chargé d'entretien du parc :</h2>
-            <input type="text">
-            <h2>Fait le :</h2>
-            <input type="date">
+    <div id="infoReparation">
+        <div class="form-group col-md-3 space">
+            <label for="inputLieux">Lieux de réparation :</label>
+            <input type="text" class="form-control" id="inputLieux" name="inputLieux" placeholder="Lieux de réparation">
         </div>
-        <input type=submit value=Envoyer id=envoyer>
-    </div>     
+
+        <div class=space>
+            <label for="inputTrav">Travaux Effectuées :</label>
+            <textarea class="form-control" id="inputTrav" name="inputTrav" rows="3"></textarea>
+        </div>
+
+
+        <div class="form-group col-md-3 space">
+          <label for="inputDateRep">Fait le</label>
+          <input type="date" class="form-control" id="inputDateRep" name="inputDateRep">
+        </div>
+    </div>    
+
+
+
+</div>
+
+
+
+
+
+  <button type="submit" class="btn btn-dark" id="btnEnvoyer" value="EnvoyerReparation" name="action">Envoyer</button>
+</form>
+
 
 </body>
 </html>
