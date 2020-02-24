@@ -53,12 +53,29 @@ function verifUserBdd($login,$passe)
 	// dont les identifiants sont passes en paramètre
 	// renvoie faux si user inconnu
 	// renvoie l'id de l'utilisateur si succès
-
-	$SQL="SELECT id FROM users WHERE pseudo='$login' AND passe='$passe'";
-
+	$SQL="SELECT id FROM user WHERE login='$login' AND passe='$passe'";
 	return SQLGetChamp($SQL);
+
 	// si on avait besoin de plus d'un champ
 	// on aurait du utiliser SQLSelect
+}
+
+function isAdmin($login)
+{
+	// vérifie si l'utilisateur est un administrateur
+	// renvoie faux si user est un simple joueur
+	// renvoie l'id de l'utilisateur si c'est un admin
+	$SQL ="SELECT id FROM user WHERE login='$login' AND droit>=1";
+	return SQLGetChamp($SQL); 
+}
+
+function isSuperAdmin($login)
+{
+	// vérifie si l'utilisateur est un administrateur
+	// renvoie faux si user est un simple joueur
+	// renvoie l'id de l'utilisateur si c'est un admin
+	$SQL ="SELECT id FROM user WHERE login='$login' AND droit=2";
+	return SQLGetChamp($SQL); 
 }
 
 

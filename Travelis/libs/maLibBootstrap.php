@@ -6,16 +6,18 @@ Ce fichier définit diverses fonctions permettant de faciliter la production de 
 Il est utilisé en conjonction avec le style de bootstrap et insère des classes bootstrap
 */
 
-function mkHeadLink($label,$view,$currentView="",$class="")
+function mkHeadLink($label,$vue="",$id="")
 {
-	// fabrique un lien pour l'entête en insèrant la classe 'active' si view = currentView
+	// Fabrique un lien pour l'entête de navigation
 
-	// EX: <?=mkHeadLink("Accueil","accueil",$view)
-	// produit <li class="active"><a href="index.php?view=accueil">Accueil</a></li> si $view= accueil
-
-	if ($view == $currentView) 
-		$class .= " active";
-	return "<li class=\"$class\"> <a href=\"index.php?view=$view\">$label</a></li>";
+	// EX: mkHeadLink("Accueil","accueil","lienAccueil")
+	// produit <li class="navbar-pages nav-item" id="lienAccueil">
+	//				<a class="nav-link" href="index.php?view=accueil">Accueil</a>
+	//			</li>"
+	
+	return "<li class=\"navbar-pages nav-item\" id=\"$id\">
+				<a class=\"nav-link\" href=\"index.php?view=$vue\">$label</a>
+  			</li>";
 }
 
 ?>
