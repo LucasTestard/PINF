@@ -1,22 +1,20 @@
-.red{
-
-    height: 600px;
-    background-color: red;
-}
-
 .btn-custom{
-
     background-color: blueviolet;
 }
-
 body{
-    background-color:#DFD8D7;
+    background-color: #aaaaaa;
 }
+
 
 #connexion{
     margin-top: 4%;
     padding: 5%;
-    
+}
 
+.infosPrincipales{
+    margin-top:30px;
+}
 
+.vacation{ 
+    border:solid black 1px;
 }

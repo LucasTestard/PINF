@@ -13,22 +13,18 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 ?>
 <div class="container">
 	<div class="row justify-content-lg-center align-middle">
-		<form id="connexion" class="form-signin">
+		<form id="connexion" class="form-signin" action="controleur.php" method="get">
 			<div class="form-group">
 				<label for="Identifiant">Identifiant</label>
-				<input type="email" class="form-control" id="Identifiant" aria-describedby="aideIdentifiant">
+				<input type="text" class="form-control" id="Identifiant" aria-describedby="aideIdentifiant" name="login">
 				<small id="aideIdentifiant" class="form-text text-muted">Celui figurant sur le courrier</small>
 			</div>
 			<div class="form-group">
 				<label for="mdp">Mot de Passe</label>
-				<input type="password" class="form-control" id="mdp">
-				<small id="aideIdentifiant" class="form-text text-muted">Celui figurant sur le courrier OU celui que vous avez défini</small>
+				<input type="password" class="form-control" id="mdp" aria-describedby="aideMdp" name="passe">
+				<small id="aideMdp" class="form-text text-muted">Celui figurant sur le courrier OU celui que vous avez défini</small>
 			</div>
-			<div class="form-group form-check">
-				<input type="checkbox" class="form-check-input" id="CBsouvenir">
-				<label class="form-check-label" for="CBsouvenir">Se souvenir de moi</label>
-			</div>
-			<button type="submit" class="btn btn-dark">Se Connecter</button>
+			<button type="submit" class="btn btn-dark" value="Connexion" name="action">Se Connecter</button>
 		</form>
 	</div>
 </div>

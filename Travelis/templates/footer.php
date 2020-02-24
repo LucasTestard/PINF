@@ -12,7 +12,16 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 */
 ?>
 
-  <div class="fixed-bottom"><h1> footer</h1></div>
+  <div class="fixed-bottom">
+    <?php
+		// Si l'utilisateur est connecte, on affiche un lien de deconnexion 
+		if (valider("connecte","SESSION"))
+		{
+			echo "Utilisateur <b>$_SESSION[login]</b> connecté depuis <b>$_SESSION[heureConnexion]</b> &nbsp; "; 
+		}
+		?>
+  	
+  </div>
   
 
   </body>

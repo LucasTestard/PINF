@@ -43,7 +43,6 @@ function SQLUpdate($sql)
 	$nb = $res->rowCount();
 	if ($nb != 0) return $nb;
 	else return false;
-	
 }
 
 // Un delete c'est comme un Update
