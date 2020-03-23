@@ -1,0 +1,28 @@
+.red{
+
+    height: 600px;
+    background-color: red;
+}
+
+.btn-custom{
+
+    background-color: blueviolet;
+}
+
+
+#connexion{
+    margin-top: 4%;
+    padding: 5%;
+}
+
+#titre{
+    text-align: center;
+    border: 1px solid black;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}

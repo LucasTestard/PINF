@@ -1,0 +1,32 @@
+html{
+    font-family: Verdana;
+}
+
+h1{
+    color: black;
+}
+#titre{
+    text-align: center;
+    border: 1px solid black;
+}
+
+h2{
+    font-style: italic;
+}
+
+.span{
+    color:rgb(70, 65, 65);
+    font-style: italic;
+}
+body{
+    background-color: whitesmoke;
+}
+
+#PageInfoPartieAdmin{
+    text-align: center;
+}
+#envoyer{
+    margin-top:5px;
+    margin-bottom:15px;
+    float:right;
+}
