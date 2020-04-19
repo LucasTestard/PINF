@@ -39,6 +39,8 @@ session_start();
 					if (verifUser($login,$passe)) {
 						$_SESSION["login"]=$login;
 						$_SESSION["passe"]=$passe;
+						$_SESSION["nom"] = nomfromlogin($login);
+						$_SESSION["prenom"] = prenomfromlogin($login);
 						$addArgs = "?view=accueil"; //Selectionner la bonne vue (accueil)
 					}
 					//S'il y a une erreur, on redirige vers la page 

@@ -1,6 +1,6 @@
 <?php
 
-// Si la page est appelée directement par son adresse, on redirige en passant pas la page index
+// Si la page est appelee directement par son adresse, on redirige en passant pas la page index
 if (basename($_SERVER["PHP_SELF"]) != "index.php"){
 	header("Location:../index.php");
 	die("");
@@ -16,11 +16,11 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 	<div class="form-row">
 		<div class="form-group col-md-3">
 			<label for="inputNom">Nom</label>
-			<input type="text" class="form-control" placeholder="Nom" id="inputNom" name="nom" required>
+			<input type="text" class="form-control" placeholder="Nom" id="inputNom" name="nom" value='<?php if(isset($_SESSION["nom"])) echo $_SESSION["nom"]?>' required>
 		</div>
 		<div class="form-group col-md-3">
-			<label for="inputPrénom">Prénom</label>
-			<input type="text" class="form-control" placeholder="Prénom" id="inputPrénom" name="prénom" required>
+			<label for="inputPrenom">Prenom</label>
+			<input type="text" class="form-control" placeholder="Prenom" id="inputPrenom" name="prenom" value='<?php if(isset($_SESSION["prenom"])) echo $_SESSION["prenom"]?>' required>
 		</div>
 		<div class="form-group col-md-3">
 			<label for="inputDate">Date</label>
@@ -33,27 +33,28 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 	</div>
 	<div class="form-row vacation">
 			<div class="form-group col-md-2">
-				<label for="inputHeureDépart">Heure de Départ</label>
-				<input type="time" class="form-control" id="inputHeureDépart" name="HeureDépart" required>
+				<label for="inputHeureDepart">Heure de Depart</label>
+				<input type="time" class="form-control" id="inputHeureDepart" name="HeureDepart" >
 			</div>
 			<div class="form-group col-md-3">
-				<label for="inputKmDépart">Kilométrage Départ</label>
-				<input type="text" class="form-control" placeholder="Kilométrage Départ" id="inputKmDépart" name="KmDépart" required>
+				<label for="inputKmDepart">Kilometrage Depart</label>
+				<input type="text" class="form-control" placeholder="Kilometrage Depart" id="inputKmDepart" name="KmDepart" >
 			</div>
 			<div class="form-group col-md-2">
 				<label for="inputPPC">Première prise en charge</label>
-				<input type="time" class="form-control" id="inputPPC" name="PPC" required>
+				<input type="time" class="form-control" id="inputPPC" name="PPC" >
 			</div>
 			<div class="form-group col-md-2">
 				<label for="inputHeureRetour">Heure de Retour</label>
-				<input type="time" class="form-control" id="inputHeureRetour" name="HeureRetour" required>
+				<input type="time" class="form-control" id="inputHeureRetour" name="HeureRetour" >
 			</div>
 			<div class="form-group col-md-3">
-				<label for="inputKmRetour">Kilométrage Retour</label>
-				<input type="text" class="form-control" placeholder="Kilométrage Retour" id="inputKmRetour" name="KmRetour" required>
+				<label for="inputKmRetour">Kilometrage Retour</label>
+				<input type="text" class="form-control" placeholder="Kilometrage Retour" id="inputKmRetour" name="KmRetour" >
 			</div>
 	</div>
-	<button type="submit" class="btn btn-dark" value="EnvoyerJournalier" name="action">Vérifier & Envoyer</button>
+	<input type="button" id="btnVerif" class="btn btn-dark" value="Vérifier">
+	<div id="popup" title="Erreur"></div>
 	
 </form>
 

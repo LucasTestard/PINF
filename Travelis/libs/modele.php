@@ -78,5 +78,20 @@ function isSuperAdmin($login)
 	return SQLGetChamp($SQL); 
 }
 
+function nomfromlogin($login)
+{
+	// renvoie le nom de l'utilisateur
+	// dont le login est passé en paramètre
+	$SQL ="SELECT nom FROM user WHERE login='$login'";
+	return SQLGetChamp($SQL); 
+}
+function prenomfromlogin($login)
+{
+	// renvoie le prenom de l'utilisateur
+	// dont le login est passé en paramètre
+	$SQL ="SELECT prenom FROM user WHERE login='$login'";
+	return SQLGetChamp($SQL); 
+}
+
 
 ?>

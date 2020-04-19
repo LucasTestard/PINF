@@ -30,7 +30,13 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 	<!-- Bibliothèque Jquery puis Bootstrap -->
 	<script src="js/jquery-3.4.1.min.js"></script> <!-- A corriger -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> <!-- Implémentation de JQuery par le CDN de Google -->
+	
+	<link rel="stylesheet" href="jqueryui/jquery-ui.min.css">
+  <script src="jqueryui/external/jquery/jquery.js"></script>
+  <script src="jqueryui/jquery-ui.min.js"></script>
+	
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/journalier.js"></script>
 	<script>
 	$(document).ready(function() {
 		var page = '<?php echo $view?>'; //On récupère le paramètre qui représente la vue actuelle
