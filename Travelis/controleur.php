@@ -41,6 +41,8 @@ session_start();
 						$_SESSION["passe"]=$passe;
 						$_SESSION["nom"] = nomfromlogin($login);
 						$_SESSION["prenom"] = prenomfromlogin($login);
+						//tprint($_SESSION);
+						//die();
 						$addArgs = "?view=accueil"; //Selectionner la bonne vue (accueil)
 					}
 					//S'il y a une erreur, on redirige vers la page 
@@ -55,6 +57,36 @@ session_start();
 
 			case 'Logout' :
 				session_destroy();
+			break;
+
+			case 'EnvoyerJournalier' :
+				if (valider("connecte","SESSION")) // On verifie Si l'utilisateur est toujours connecté
+				if ($idUser = valider("idUser","SESSION"))
+				if ($immatriculation = valider("immatriculation"))
+				if ($nom = valider("nom"))
+				if ($prenom = valider("prenom"))
+				if ($date = valider("date"))
+				if ($idVehicule = verifVehicule($immatriculation)) //On verifie si la plaque du vehicule existe dans la BDD
+				{
+					$mois=getMois($date);
+					if($idFicheMensuelle=existMensuelle($mois,$idUser))
+					{
+						// On crée le pointage journalier
+						
+						pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
+					}
+					
+					else{
+						//On crée la fiche mensuelle correspondante
+						$idFicheMensuelle=pointageMensuel($idUser,$date);
+						//PUIS
+						pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
+					}
+				}
+				
+				
+				
+				
 			break;
 
 

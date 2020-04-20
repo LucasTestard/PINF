@@ -93,5 +93,52 @@ function prenomfromlogin($login)
 	return SQLGetChamp($SQL); 
 }
 
+function pointageJournalier($idUser,$idVehicule,$date,$idMensuelle)
+{
+	//TODO: commentaires
+	$SQL ="INSERT INTO fiche_journaliere (id_user,id_vehicule,date,id_fiche_mensuelle)
+		VALUES ('$idUser', '$idVehicule', '$date','$idMensuelle')";
+
+	
+ 
+	SQLInsert($SQL);
+}
+
+
+function verifVehicule($immatriculation)
+{
+	// Vérifie l'existance d'un vehicule 
+	// dont l'immatriculation est passe en paramètre
+	// renvoie faux si vehicule inconnu
+	// renvoie l'id du vehicule si succès
+	$SQL="SELECT id FROM vehicule WHERE immatriculation='$immatriculation'";
+	return SQLGetChamp($SQL);
+}
+
+function getMois($date)
+{
+	// Permet d’extraire le numéro de mois à partir d’une date au format AAAA-MM-JJ
+	$SQL="SELECT MONTH('$date')";
+	return SQLGetChamp($SQL);
+}
+
+function existMensuelle($mois,$idUser)
+{
+	// Vérifie l'existance d'une fiche mensuelle correspondant à un utilisateur et à un mois
+	// passes en parametre
+	// renvoie faux si la fiche n'existe pas
+	// renvoie l'id de la fiche si elle existe
+	$SQL="SELECT id FROM fiche_mensuelle WHERE id_user='$idUser' AND MONTH(date)='$mois' ";
+	return SQLGetChamp($SQL);
+}
+
+function pointageMensuel($idUser,$date)
+{
+	//TODO: commentaires
+	$SQL ="INSERT INTO fiche_mensuelle(date,id_user)
+		VALUES ('$date','$idUser')";
+ 
+	return SQLInsert($SQL);
+}
 
 ?>

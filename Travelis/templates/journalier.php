@@ -12,7 +12,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 ?>
 
 
-<form class="container-fluid">
+<form class="container-fluid" action="controleur.php" method="get">
 	<div class="form-row">
 		<div class="form-group col-md-3">
 			<label for="inputNom">Nom</label>

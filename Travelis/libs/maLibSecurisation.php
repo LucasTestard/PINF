@@ -33,7 +33,6 @@ function verifUser($login,$password)
 	$_SESSION["connecte"] = true;
 	$_SESSION["heureConnexion"] = date("H:i:s");
 	return true;
-	
 }
 
 
