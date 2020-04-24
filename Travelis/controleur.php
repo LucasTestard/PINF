@@ -43,6 +43,7 @@ session_start();
 						$_SESSION["prenom"] = prenomfromlogin($login);
 						//tprint($_SESSION);
 						//die();
+						
 						$addArgs = "?view=accueil"; //Selectionner la bonne vue (accueil)
 					}
 					//S'il y a une erreur, on redirige vers la page 
@@ -67,33 +68,39 @@ session_start();
 				if ($prenom = valider("prenom"))
 				if ($date = valider("date"))
 				if ($idVehicule = verifVehicule($immatriculation)) //On verifie si la plaque du vehicule existe dans la BDD
+				if ($nbVacation = valider("nbVacation"))
+				if ($nbPC = valider("nbPC"))
+				if ($heureDepart = valider("HeureDepart"))
+				if ($kmDepart = valider("KmDepart"))
+				if ($PPC = valider("PPC"))
+				if ($heureRetour = valider("HeureRetour"))
+				if ($kmRetour = valider("KmRetour"))
+				if ($priseCharge = valider("PriseCharge"))
+				if ($absent = valider("Absent"))
+				if ($observation = valider("Observation"))
 				{
+					// tprint($_GET);
+					// die();
 					$mois=getMois($date);
 					if($idFicheMensuelle=existMensuelle($mois,$idUser))
 					{
-						// On crée le pointage journalier
+						// On crée le pointage journalier (on récup l'id)
+						$idFicheJournaliere=pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
 						
-						pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
+						
+						creerVacationsFicheJournaliere($idFicheJournaliere,$nbVacation,$nbPC,$heureDepart,$kmDepart,$PPC,$heureRetour,$kmRetour,$priseCharge,$absent,$observation);
 					}
 					
 					else{
 						//On crée la fiche mensuelle correspondante
 						$idFicheMensuelle=pointageMensuel($idUser,$date);
 						//PUIS
-						pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
+						$idFicheJournaliere=pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
+						creerVacationsFicheJournaliere($idFicheJournaliere,$nbVacation,$nbPC,$heureDepart,$kmDepart,$PPC,$heureRetour,$kmRetour,$priseCharge,$absent,$observation);
 					}
 				}
-				
-				
-				
-				
 			break;
-
-
-
-
 		}
-
 	}
 
 	// On redirige toujours vers la page index, mais on ne connait pas le répertoire de base

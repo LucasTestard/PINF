@@ -93,18 +93,6 @@ function prenomfromlogin($login)
 	return SQLGetChamp($SQL); 
 }
 
-function pointageJournalier($idUser,$idVehicule,$date,$idMensuelle)
-{
-	//TODO: commentaires
-	$SQL ="INSERT INTO fiche_journaliere (id_user,id_vehicule,date,id_fiche_mensuelle)
-		VALUES ('$idUser', '$idVehicule', '$date','$idMensuelle')";
-
-	
- 
-	SQLInsert($SQL);
-}
-
-
 function verifVehicule($immatriculation)
 {
 	// Vérifie l'existance d'un vehicule 
@@ -134,11 +122,51 @@ function existMensuelle($mois,$idUser)
 
 function pointageMensuel($idUser,$date)
 {
-	//TODO: commentaires
+	// renvoie l'id de la fiche si elle existe
 	$SQL ="INSERT INTO fiche_mensuelle(date,id_user)
 		VALUES ('$date','$idUser')";
- 
 	return SQLInsert($SQL);
 }
+
+
+
+function pointageJournalier($idUser,$idVehicule,$date,$idMensuelle)
+{
+	//TODO: commentaires
+	// renvoie l'id de la fiche créer
+	$SQL ="INSERT INTO fiche_journaliere (id_user,id_vehicule,date,id_fiche_mensuelle)
+		VALUES ('$idUser', '$idVehicule', '$date','$idMensuelle')";
+	return SQLInsert($SQL);
+}
+
+function creerPriseEnCharge($priseCharge,$absent,$observation,$idVacation,$nbPC)
+{
+	//TODO: commentaires
+	for ($i = 0; $i < $nbPC; $i++) {
+		$SQL ="INSERT INTO prise_en_charge (prise_en_charge,absent,observation,id_vacation)
+		VALUES ('$priseCharge[$i]', '$absent[$i]', '$observation[$i]','$idVacation')";
+		SQLInsert($SQL);
+	}
+}
+
+function creerVacationsFicheJournaliere($idFicheJournaliere,$nbVacation,$nbPC,$heureDepart,$kmDepart,$PPC,$heureRetour,$kmRetour,$priseCharge,$absent,$observation)
+{
+	//TODO: commentaires
+	for ($i = 0; $i < $nbVacation; $i++) {
+		$SQL ="INSERT INTO vacation (heure_depart,km_depart,premiere_prise_en_charge,heure_retour,km_retour,id_fiche_journaliere)
+		VALUES ('$heureDepart[$i]', '$kmDepart[$i]', '$PPC[$i]','$heureRetour[$i]','$kmRetour[$i]','$idFicheJournaliere')";
+		$idVacation=SQLInsert($SQL);
+		creerPriseEnCharge($priseCharge,$absent,$observation,$idVacation,$nbPC[$i]);
+
+	}
+
+
+	
+
+
+}
+
+
+
 
 ?>

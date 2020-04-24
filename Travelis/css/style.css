@@ -11,14 +11,34 @@ body{
     padding: 5%;
 }
 
-.infosPrincipales{
-    margin-top:30px;
-}
 
-.vacation{ 
-    border:solid black 1px;
+.trait{
+    position: relative;
+    background-color: #343a40;
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    
+}
+#navbarSite{
+    margin-bottom: 10px;
 }
 
 .no-close .ui-dialog-titlebar-close {
     display: none;
-  }
+}
+
+#btnVerif,#btnEnvoi,#btnAjoutVacation{
+
+    margin-top:20px;
+}
+
+.vacation{
+    margin-top:5px;
+    margin-bottom:10px;
+}
+.btn{
+    margin:3px;
+}
+
