@@ -14,26 +14,14 @@ session_start();
 		ob_start ();
 		echo "Action = '$action' <br />";
 		// ATTENTION : le codage des caractères peut poser PB si on utilise des actions comportant des accents... 
-		// A EVITER si on ne maitrise pas ce type de problématiques
-
-		/* TODO: A REVOIR !!
-		// Dans tous les cas, il faut etre logue... 
-		// Sauf si on veut se connecter (action == Connexion)
-
-		if ($action != "Connexion") 
-			securiser("login");
-		*/
-
-		// Un paramètre action a été soumis, on fait le boulot...
+		// A EVITER
+		
 		switch($action)
 		{
-			
-			
-			// Connexion //////////////////////////////////////////////////
 			case 'Connexion' :
 				// On verifie la presence des champs login et passe
-				if ($passe = valider("passe"))
-				if ($login = valider("login"))
+				if ($passe = valider("passe","POST"))
+				if ($login = valider("login","POST"))
 				{
 					//On verifie l'utilisateur, et on crée des variables de session si tout est OK
 					if (verifUser($login,$passe)) {
@@ -41,10 +29,8 @@ session_start();
 						$_SESSION["passe"]=$passe;
 						$_SESSION["nom"] = nomfromlogin($login);
 						$_SESSION["prenom"] = prenomfromlogin($login);
-						//tprint($_SESSION);
-						//die();
-						
-						$addArgs = "?view=accueil"; //Selectionner la bonne vue (accueil)
+
+						$addArgs = "?view=accueil&message=Vous êtes connecté"; //Selectionner la bonne vue (accueil)
 					}
 					//S'il y a une erreur, on redirige vers la page 
 					else{
@@ -60,43 +46,95 @@ session_start();
 				session_destroy();
 			break;
 
+			case 'AfficherFicheMensuelleActuelle' :			
+				if ($idUser = valider("idUser","SESSION"))
+				if ($anneeMois = valider("anneeMois"))
+				{
+					$idFicheMensuelle=existMensuelle($anneeMois,$idUser);
+					$addArgs = "?view=mensuel&idFicheMensuelle=".$idFicheMensuelle; 
+				}
+			break;	
+
+			case 'AfficherPointage' :
+				if ($idFiche = valider("fiche"))
+				{
+					$addArgs = "?view=afficherFiche&idFiche=".$idFiche; 
+				}
+			break;
+
+			case 'RechercherFichesJournalieres' :
+				if ($idUser = valider("idUser","SESSION"))
+				if ($dateDebut = valider("DateDebut","POST"))
+				if ($dateFin = valider("DateFin","POST"))
+				{
+					$addArgs = "?view=ancien&idUser=".$idUser."&dateFin=".$dateFin."&dateDebut=".$dateDebut; 
+				}
+			break;
+
+			case 'RechercherFichesMensuelles' :
+				if ($idUser = valider("idUser","SESSION"))
+				if ($annee = valider("annee","POST"))
+				{
+					$addArgs = "?view=ancien&idUser=".$idUser."&annee=".$annee; 	
+				}
+
+			break;
+
 			case 'EnvoyerJournalier' :
+				
+
 				if (valider("connecte","SESSION")) // On verifie Si l'utilisateur est toujours connecté
 				if ($idUser = valider("idUser","SESSION"))
-				if ($immatriculation = valider("immatriculation"))
-				if ($nom = valider("nom"))
-				if ($prenom = valider("prenom"))
-				if ($date = valider("date"))
+				if ($immatriculation = valider("immatriculation","POST"))
+				if ($nom = valider("nom","POST"))
+				if ($prenom = valider("prenom","POST"))
+				if ($date = valider("date","POST"))
 				if ($idVehicule = verifVehicule($immatriculation)) //On verifie si la plaque du vehicule existe dans la BDD
-				if ($nbVacation = valider("nbVacation"))
-				if ($nbPC = valider("nbPC"))
-				if ($heureDepart = valider("HeureDepart"))
-				if ($kmDepart = valider("KmDepart"))
-				if ($PPC = valider("PPC"))
-				if ($heureRetour = valider("HeureRetour"))
-				if ($kmRetour = valider("KmRetour"))
-				if ($priseCharge = valider("PriseCharge"))
-				if ($absent = valider("Absent"))
-				if ($observation = valider("Observation"))
+				if ($nbVacation = valider("nbVacation","POST"))
+				if ($nbPC = valider("nbPC","POST"))
+				if ($heureDepart = valider("HeureDepart","POST"))
+				if ($kmDepart = valider("KmDepart","POST"))
+				if ($PPC = valider("PPC","POST"))
+				if ($heureRetour = valider("HeureRetour","POST"))
+				if ($kmRetour = valider("KmRetour","POST"))
+				if ($priseCharge = valider("PriseCharge","POST"))
+				if ($absent = valider("Absent","POST"))
+				if ($observation = valider("Observation","POST"))
+				if ($dateEnvoi = valider("dateRemplissage","POST"))
 				{
-					// tprint($_GET);
-					// die();
-					$mois=getMois($date);
-					if($idFicheMensuelle=existMensuelle($mois,$idUser))
-					{
-						// On crée le pointage journalier (on récup l'id)
-						$idFicheJournaliere=pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
-						
-						
-						creerVacationsFicheJournaliere($idFicheJournaliere,$nbVacation,$nbPC,$heureDepart,$kmDepart,$PPC,$heureRetour,$kmRetour,$priseCharge,$absent,$observation);
+					$prixCarburant=valider("prixCarburant","POST");
+					$tempsAttente=valider("tempsAttente","POST");
+					if($prixCarburant=="") $prixCarburant=0.00;
+					if($tempsAttente=="") $tempsAttente='00:00';
+
+					$anneeMois = getAnneeMois($date);
+
+					if($ficheModifie = valider("ficheModifie","POST")){
+						supprimerFicheJournaliere($ficheModifie);
 					}
-					
+					//Si une fiche mensuelle existe pour ce mois (aaaa-mm) et cet utilisateur
+					if($idFicheMensuelle=existMensuelle($anneeMois,$idUser))
+					{
+						// On crée le pointage journalier (et on récupère l'id)
+						$idFicheJournaliere=pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle,$tempsAttente,$prixCarburant,$dateEnvoi); 
+						creerVacationsFicheJournaliere($idFicheJournaliere,$nbVacation,$nbPC,$heureDepart,$kmDepart,$PPC,$heureRetour,$kmRetour,$priseCharge,$absent,$observation);
+						$addArgs = "?view=accueil&message=Fiche créée";
+						if($ficheModifie = valider("ficheModifie","POST")){	
+							modifierJournalier($idUser,$idFicheJournaliere);
+							$addArgs = "?view=accueil&message=Fiche Modifiée";
+						}
+					}
 					else{
-						//On crée la fiche mensuelle correspondante
+						//SINON On crée la fiche mensuelle correspondante
 						$idFicheMensuelle=pointageMensuel($idUser,$date);
 						//PUIS
-						$idFicheJournaliere=pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle);
+						$idFicheJournaliere=pointageJournalier($idUser,$idVehicule,$date,$idFicheMensuelle,$tempsAttente,$prixCarburant,$dateEnvoi);
 						creerVacationsFicheJournaliere($idFicheJournaliere,$nbVacation,$nbPC,$heureDepart,$kmDepart,$PPC,$heureRetour,$kmRetour,$priseCharge,$absent,$observation);
+						$addArgs = "?view=accueil&message=Fiche créée";
+						if($ficheModifie = valider("ficheModifie","POST")){	
+							modifierJournalier($idUser,$idFicheJournaliere);
+							$addArgs = "?view=accueil&message=Fiche Modifiée";
+						}
 					}
 				}
 			break;

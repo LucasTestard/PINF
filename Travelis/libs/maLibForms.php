@@ -191,6 +191,180 @@ function mkLiens($tabData,$champLabel, $champCible, $urlBase=false, $nomCible=""
 		echo "</a>\n<br />\n";
 	}
 }
+
+
+function mkResultat($tabData)
+{
+	echo '<div class="table-wrapper-scroll-y my-custom-scrollbar">';
+		echo '<table class="table table-dark table-bordered table-hover table-striped mb-0">';
+			echo '<thead>';
+				echo '<tr>';
+					echo '<th scope="col">id</th>';
+					echo '<th scope="col">date</th>';	
+				echo '</tr>';
+			echo '</thead>';
+			echo '<tbody>';
+			foreach($tabData as $data) {
+				// on parcourt uniquement les valeurs
+				// a chaque itération, les valeurs sont dans 
+				// le tableau $data
+				echo '<tr>';
+					echo '<th scope="row">';
+						echo '<a href="index.php?view=afficherFiche&idFiche='.$data["id"].'">'.$data["id"].'</a>';
+					echo '</th>';
+					echo'<td>';
+						echo '<a href="index.php?view=afficherFiche&idFiche='.$data["id"].'">'.$data["date"].'</a>';
+					echo'</td>';
+				echo '</tr>';
+			}
+			echo'</tbody>';
+		echo'</table>';
+	echo'</div>';
+}
+
+function mkResultatMensuelles($tabData)
+{
+	echo '<div class="table-wrapper-scroll-y my-custom-scrollbar">';
+		echo '<table class="table table-dark table-bordered table-hover table-striped mb-0">';
+			echo '<thead>';
+				echo '<tr>';
+					echo '<th scope="col">id</th>';
+					echo '<th scope="col">mois</th>';	
+				echo '</tr>';
+			echo '</thead>';
+			echo '<tbody>';
+			foreach($tabData as $data) {
+				// on parcourt uniquement les valeurs
+				// a chaque itération, les valeurs sont dans 
+				// le tableau $data
+				echo '<tr>';
+					echo '<th scope="row">';
+						echo '<a href="index.php?view=afficherFicheMensuelle&idFicheMensuelle='.$data["id"].'">'.$data["id"].'</a>';
+					echo '</th>';
+					echo'<td>';
+						echo '<a href="index.php?view=afficherFicheMensuelle&idFicheMensuelle='.$data["id"].'">'.$data["mois"].'</a>';
+					echo'</td>';
+				echo '</tr>';
+			}
+			echo'</tbody>';
+		echo'</table>';
+	echo'</div>';
+}
+
+
+function mkMensuelle($tabData)
+{
+	echo '<div class="col-12">';
+		echo '<div class="table-wrapper-scroll-y my-custom-scrollbar">';
+			echo '<table class="table table-dark table-bordered table-hover table-striped mb-0">';
+				echo '<thead>';
+					echo '<tr>';
+						echo '<th scope="col"></th>';
+						echo '<th scope="col" colspan="1">Heures</th>';
+						echo '<th scope="col">Vehicule</th>';
+						echo '<th scope="col" colspan="3">Kilométrage</th>';
+						echo '<th scope="col">Carburant</th>';
+					echo '</tr>';
+					echo '<tr>';
+						echo '<th scope="col">Jour + Date</th>';
+						echo '<th scope="col">Fiche Journalière</th>';
+						echo '<th scope="col">Immatriculation</th>';
+						echo '<th scope="col">Début</th>';
+						echo '<th scope="col">Fin</th>';
+						echo '<th scope="col">Total</th>';
+						echo '<th scope="col">En Euro</th>';
+					echo '</tr>';
+				echo '</thead>';
+				echo '<tbody>';
+				//$temps_total = "00:00:00";
+				foreach($tabData as $data) {
+					// on parcourt uniquement les valeurs
+					// a chaque itération, les valeurs sont dans 
+					// le tableau $data
+					echo '<tr>';
+						echo'<td>';
+							echo '<a href="index.php?view=afficherFiche&idFiche='.$data["id"].'">'.jour($data["Jour"]).' '.$data["Date"].'</a>';
+						echo'</td>';
+						echo'<td>';
+							echo substr($data["Heures"],0,-3);//permet de ne pas afficher les secondes (qui sont toujours à 00)
+						echo'</td>';
+						echo'<td>';
+							echo $data["Vehicule"];
+						echo'</td>';
+						echo'<td>';
+							echo $data["Debut"];
+						echo'</td>';
+						echo'<td>';
+							echo $data["Fin"];
+						echo'</td>';
+						echo'<td>';
+							echo $data["Total"];
+						echo'</td>';
+						echo'<td>';
+							echo $data["Carburant"];
+						echo'</td>';
+					echo '</tr>';
+				}
+				echo'</tbody>';
+			echo'</table>';
+		echo'</div>';
+	echo'</div>';
+}
+
+function mkTotalMensuelle($data)
+{
+	echo '<div class="col-12">';
+		echo '<div class="table-wrapper-scroll-y my-custom-scrollbar">';
+			echo '<table class="table table-dark table-bordered table-hover table-striped mb-0">';
+				echo '<thead>';
+					echo '<th scope="col">Total Heures</th>';
+					echo '<th scope="col">Total Kilométrage</th>';
+					echo '<th scope="col">Total Carburant</th>';
+				echo '</thead>';
+				echo '<tbody>';
+					echo '<tr>';
+						echo'<td>';
+							echo substr($data[0]["TotalHeure"],0,-3);
+						echo'</td>';
+						echo'<td>';
+							echo $data[0]["TotalKm"];
+						echo'</td>';
+						echo'<td>';
+							echo $data[0]["TotalCarburant"];
+						echo'</td>';
+					echo '</tr>';
+				echo'</tbody>';
+			echo'</table>';
+		echo'</div>';
+	echo'</div>';		
+}
+
+function jour($numJour){
+	switch ($numJour) {
+		
+		case 1:
+			return "Dimanche";
+			break;
+		case 2:
+			return "Lundi";
+			break;
+		case 3:
+			return "Mardi";
+			break;
+		case 4:
+			return "Mercredi";
+			break;
+		case 5:
+			return "Jeudi";
+			break;
+		case 6:
+			return "Vendredi";
+			break;
+		case 7:
+			return "Samedi";
+			break;	
+	}
+}
 ?>
 
 

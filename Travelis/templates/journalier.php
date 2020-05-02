@@ -11,25 +11,35 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 */
 ?>
 
-
-
-<form id="pointageJournalier" class="container-fluid" action="controleur.php" method="get">
-	<div class="form-row justify-content-between">
-		<div class="form-group col-sm-3">
+<form id="pointageJournalier" class="container-fluid" action="controleur.php" method="post">
+	<input id="dateDuJour" name="dateRemplissage" type="hidden" value='<?php echo date('Y/m/d'); ?>'>
+	
+	<div class="form-row justify-content-start">
+		<div class="form-group col-md-3">
 			<label for="inputNom">Nom</label>
 			<input type="text" class="form-control Obligatoire" placeholder="Nom" id="inputNom" name="nom" value='<?php if(isset($_SESSION["nom"])) echo $_SESSION["nom"]?>' required readonly>
 		</div>
-		<div class="form-group col-sm-3">
+		<div class="form-group col-md-3">
 			<label for="inputPrenom">Prénom</label>
 			<input type="text" class="form-control Obligatoire" placeholder="Prenom" id="inputPrenom" name="prenom" value='<?php if(isset($_SESSION["prenom"])) echo $_SESSION["prenom"]?>' required readonly> 
 		</div>
-		<div class="form-group col-sm-3">
+		<div class="form-group col-md-3">
 			<label for="inputDate">Date</label>
 			<input type="date" class="form-control Obligatoire" placeholder="Date" id="inputDate" name="date" required>
 		</div>
-		<div class="form-group col-sm-3">
-			<label for="inputNom">Immatriculation</label>
-			<input type="text" class="form-control Obligatoire" placeholder="Immatriculation" id="inputImmatriculation" name="immatriculation" required>
+		<div class="form-group col-md-3">
+			<label for="inputImmatriculation">Immatriculation</label>
+			<input type="text" class="form-control Obligatoire" placeholder="Immatriculation" id="inputImmatriculation" name="immatriculation" autocomplete="off" required>
+			<ul class="list-group">
+			</ul>
+		</div>
+		<div class="form-group col-md-3">
+			<label for="inputTempsAttente">Temps d'attente</label>
+			<input type="time" class="form-control" placeholder="Temps d'attente" id="inputTempsAttente" name="tempsAttente">
+		</div>
+		<div class="form-group col-md-3">
+			<label for="inputPrixCarburant">Pris Carburant (en euro)</label>
+			<input type=number step=0.01 min="0" class="form-control" placeholder="Prix Carburant mis dans le véhicule" id="inputPrixCarburant" name="prixCarburant">
 		</div>
 	</div>
 	<div class="trait"></div>
@@ -60,7 +70,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 				<input type="text" class="form-control KmRetour Obligatoire" placeholder="Kilométrage Retour" id="inputKmRetour" name="KmRetour[]" >
 			</div>
 		</div>
-		<div>
+		<div class="priseEnCharge">
 			<hr>
 			<div class="form-row">
 				<div class="form-group col-sm-auto">
@@ -69,7 +79,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 				</div>
 				<div class="form-group col-sm-auto">
 					<label for="inputAbsent"></br/>Absent</label>
-					<input type="text" class="form-control Obligatoire" id="inputAbsent" name="Absent[]" placeholder="oui/non">
+					<input type="text" class="form-control Obligatoire" id="inputAbsent" name="Absent[]" placeholder="oui/non" maxlength="3">
 				</div>
 				<div class="form-group col-sm-auto">
 					<label for="inputObservation"></br/>Observation</label>
@@ -77,17 +87,14 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 				</div>
 			</div>
 		</div>
-		<input type="button" id="btnAjoutPC" class="btn btn-dark" value="Ajouter Prise en charge">
-		
+		<input type="button"  class="btn btn-dark btnAjoutPC" value="Ajouter Prise en charge">
 	</div>
 	<div class="trait"></div>
-	
 	<div id="newVacation"></div>
-	
-	<input type="button" id="btnAjoutVacation" class="btn btn-dark" value="Ajouter Vacation"><input type="button" id="btnVerif" class="btn btn-dark" value="Vérifier">
+	<input type="button" id="btnAjoutVacation" class="btn btn-dark" value="Ajouter Vacation"><input type="button" id="btnVerif" class="btn btn-dark" value="Vérifier"><button id="btnEnvoi" type="submit" class="btn btn-dark" value="EnvoyerJournalier" name="action">Envoyer pointage</button><input type="button" id="btnContinuer" class="btn btn-dark" value="Continuer Pointage">
+	<div id="popup" title="Erreur"></div>
 </form>	
 
-<div id="popup" title="Erreur"></div>
   
 
 

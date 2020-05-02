@@ -5,48 +5,6 @@
 include_once("maLibSQL.pdo.php");
 
 
-function listerUtilisateurs($classe = "both")
-{
-	// NB : la présence du symbole '=' indique la valeur par défaut du paramètre s'il n'est pas fourni
-	// Cette fonction liste les utilisateurs de la base de données 
-	// et renvoie un tableau d'enregistrements. 
-	// Chaque enregistrement est un tableau associatif contenant les champs 
-	// id,pseudo,blacklist,connecte,couleur
-
-	// Lorsque la variable $classe vaut "both", elle renvoie tous les utilisateurs
-	// Lorsqu'elle vaut "bl", elle ne renvoie que les utilisateurs blacklistés
-	// Lorsqu'elle vaut "nbl", elle ne renvoie que les utilisateurs non blacklistés
-
-	$SQL = "select * from users";
-	if ($classe == "bl")
-		$SQL .= " where blacklist=1";
-	if ($classe == "nbl")
-		$SQL .= " where blacklist=0";
-	
-	// echo $SQL;
-	return parcoursRs(SQLSelect($SQL));
-
-}
-
-
-function interdireUtilisateur($idUser)
-{
-	// cette fonction affecte le booléen "blacklist" à vrai
-	$SQL = "UPDATE users SET blacklist=1 WHERE id='$idUser'";
-	// les apostrophes font partie de la sécurité !! 
-	// Il faut utiliser addslashes lors de la récupération 
-	// des données depuis les formulaires
-
-	SQLUpdate($SQL);
-}
-
-function autoriserUtilisateur($idUser)
-{
-	// cette fonction affecte le booléen "blacklist" à faux 
-	$SQL = "UPDATE users SET blacklist=0 WHERE id='$idUser'";
-	SQLUpdate($SQL);
-}
-
 function verifUserBdd($login,$passe)
 {
 	// Vérifie l'identité d'un utilisateur 
@@ -55,9 +13,6 @@ function verifUserBdd($login,$passe)
 	// renvoie l'id de l'utilisateur si succès
 	$SQL="SELECT id FROM user WHERE login='$login' AND passe='$passe'";
 	return SQLGetChamp($SQL);
-
-	// si on avait besoin de plus d'un champ
-	// on aurait du utiliser SQLSelect
 }
 
 function isAdmin($login)
@@ -103,20 +58,21 @@ function verifVehicule($immatriculation)
 	return SQLGetChamp($SQL);
 }
 
-function getMois($date)
+function getAnneeMois($date)
 {
-	// Permet d’extraire le numéro de mois à partir d’une date au format AAAA-MM-JJ
-	$SQL="SELECT MONTH('$date')";
+	// Permet d’extraire une date au format AAAA-MM 
+	// à partir d’une date au format AAAA-MM-JJ
+	$SQL="SELECT SUBSTRING('$date', 1, 7)";
 	return SQLGetChamp($SQL);
 }
 
-function existMensuelle($mois,$idUser)
+function existMensuelle($anneeMois,$idUser)
 {
-	// Vérifie l'existance d'une fiche mensuelle correspondant à un utilisateur et à un mois
+	// Vérifie l'existance d'une fiche mensuelle correspondant à un utilisateur et à une 'annee-mois'
 	// passes en parametre
 	// renvoie faux si la fiche n'existe pas
 	// renvoie l'id de la fiche si elle existe
-	$SQL="SELECT id FROM fiche_mensuelle WHERE id_user='$idUser' AND MONTH(date)='$mois' ";
+	$SQL="SELECT id FROM fiche_mensuelle WHERE id_user='$idUser' AND date LIKE '$anneeMois%' ";
 	return SQLGetChamp($SQL);
 }
 
@@ -130,13 +86,26 @@ function pointageMensuel($idUser,$date)
 
 
 
-function pointageJournalier($idUser,$idVehicule,$date,$idMensuelle)
+function pointageJournalier($idUser,$idVehicule,$date,$idMensuelle,$tempsAttente,$prixCarburant,$dateEnvoi)
 {
 	//TODO: commentaires
 	// renvoie l'id de la fiche créer
-	$SQL ="INSERT INTO fiche_journaliere (id_user,id_vehicule,date,id_fiche_mensuelle)
-		VALUES ('$idUser', '$idVehicule', '$date','$idMensuelle')";
+	$SQL ="INSERT INTO fiche_journaliere (id_user,id_vehicule,date,id_fiche_mensuelle,temps_attente,carburant_euro,date_envoi)
+		VALUES ('$idUser', '$idVehicule', '$date','$idMensuelle','$tempsAttente','$prixCarburant','$dateEnvoi')";
+
+	
 	return SQLInsert($SQL);
+}
+
+
+function modifierJournalier($idUserModif,$idFicheJournaliere)
+{
+	//TODO: commentaires
+	$SQL ="UPDATE fiche_journaliere
+	SET id_user_modif = '$idUserModif'
+	WHERE id='$idFicheJournaliere'";
+	SQLUpdate($SQL);
+
 }
 
 function creerPriseEnCharge($priseCharge,$absent,$observation,$idVacation,$nbPC)
@@ -159,14 +128,125 @@ function creerVacationsFicheJournaliere($idFicheJournaliere,$nbVacation,$nbPC,$h
 		creerPriseEnCharge($priseCharge,$absent,$observation,$idVacation,$nbPC[$i]);
 
 	}
-
-
-	
-
-
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+function estModifiePar($idFiche)
+{
+	$SQL ="SELECT j.id_user_modif, u.prenom, u.nom
+	FROM user u , fiche_journaliere j
+	WHERE (u.id = j.id_user_modif) AND j.id = $idFiche";
+
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function infoFiche($idFiche)
+{
+
+	$SQL ="SELECT u.nom, u.prenom, j.date, v.immatriculation, j.carburant_euro, j.temps_attente, j.date_envoi
+	FROM user u , fiche_journaliere j , vehicule v 
+	WHERE (u.id = j.id_user) AND (j.id_vehicule = v.id) AND j.id = $idFiche";
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function infoVacation($idFiche)
+{
+	$SQL ="SELECT v.heure_depart, v.km_depart, v.premiere_prise_en_charge, v.heure_retour, v.km_retour 
+	FROM vacation v 
+	WHERE id_fiche_journaliere=$idFiche";
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function nbVacation($idFiche)
+{
+	$SQL ="SELECT COUNT(*) AS nbVacation FROM vacation WHERE id_fiche_journaliere=$idFiche";
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function nbPC($idFiche)
+{
+	$SQL ="SELECT COUNT(*) AS nbPriseEnCharge 
+	FROM prise_en_charge p, vacation v, fiche_journaliere j 
+	WHERE (p.id_vacation = v.id) AND (v.id_fiche_journaliere=j.id) AND j.id =$idFiche
+	GROUP BY p.id_vacation";
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+
+function infoPC($idFiche){
+	$SQL ="SELECT p.prise_en_charge, p.absent, p.observation 
+	FROM prise_en_charge p, vacation v, fiche_journaliere j 
+	WHERE (p.id_vacation = v.id) AND (v.id_fiche_journaliere = j.id) AND j.id =$idFiche
+	ORDER BY p.id_vacation ASC";
+
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+
+function rechercheFiches($dateDebut,$dateFin,$idUser){
+	if($dateDebut < $dateFin){
+		$SQL ="SELECT j.id,j.date
+		FROM fiche_journaliere j 
+		WHERE j.id_user =$idUser AND j.date BETWEEN '$dateDebut' AND '$dateFin'";
+	}
+	else{
+		$SQL ="SELECT j.id,j.date
+		FROM fiche_journaliere j 
+		WHERE j.id_user =$idUser AND j.date BETWEEN '$dateFin' AND '$dateDebut'";
+	}
+	return parcoursRs(SQLSelect($SQL));
+}
+
+function rechercheFichesMensuelles($idUser,$annee){
+	$SQL ="SELECT m.id, SUBSTRING(m.date,1,7) AS mois
+	FROM fiche_mensuelle m
+	WHERE m.id_user=$idUser AND SUBSTRING(m.date,1,4)=$annee";
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function infoFicheMensuelle($idFicheMensuelle)
+{
+	$SQL = "SELECT j.id AS 'id',DAYOFWEEK(j.date) AS 'Jour',j.date AS 'Date',SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(v.heure_retour, v.heure_depart)))) AS 'Heures',
+	c.immatriculation AS 'Vehicule',MIN(v.km_depart) AS 'Debut',MAX(v.km_retour) AS 'Fin',(MAX(v.km_retour)-MIN(v.km_depart)) AS 'Total', j.carburant_euro AS 'Carburant'
+	FROM vacation v, fiche_journaliere j,vehicule c, fiche_mensuelle m
+	WHERE (v.id_fiche_journaliere = j.id) AND (j.id_vehicule=c.id) AND (j.id_fiche_mensuelle=m.id) AND (m.id=$idFicheMensuelle)
+	GROUP BY v.id_fiche_journaliere
+	ORDER BY j.date ASC";
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+
+function totauxFicheMensuelle($idFicheMensuelle)
+{
+	$SQL = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(v.heure_retour, v.heure_depart)))) AS 'TotalHeure',SUM(v.km_retour-v.km_depart) AS 'TotalKm', ROUND(SUM(j.carburant_euro),2) AS 'TotalCarburant'
+	FROM vacation v, fiche_journaliere j, fiche_mensuelle m
+	WHERE (v.id_fiche_journaliere = j.id) AND (j.id_fiche_mensuelle=m.id) AND (m.id=$idFicheMensuelle)";
+
+	return parcoursRs(SQLSelect($SQL));
+}
+
+
+function supprimerFicheJournaliere($idFiche)
+{
+	$SQL = "DELETE p.* FROM prise_en_charge p, vacation v, fiche_journaliere j  WHERE (p.id_vacation = v.id) AND (v.id_fiche_journaliere=j.id) AND (j.id=$idFiche)";
+	SQLDelete($SQL);
+	$SQL = "DELETE v.* FROM vacation v , fiche_journaliere j WHERE (v.id_fiche_journaliere=j.id) AND (j.id=$idFiche)";
+	SQLDelete($SQL);
+	$SQL = "DELETE j.* FROM fiche_journaliere j WHERE (j.id=$idFiche)";
+	SQLDelete($SQL);
+}
 
 ?>
