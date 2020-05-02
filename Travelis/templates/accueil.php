@@ -12,15 +12,13 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
 */
 ?>
 
-<h1> Accueil </h1>
+<?php 
+
+	if ($message = valider("message")) {
+		echo "<h2> $message </h2>";
+	}
 
 
-
-  
-
-
-
-
-
+?>
 
 
